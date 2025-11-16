@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: postgres_team
+    environment:
+      POSTGRES_USER: teamuser
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: teamdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_team
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:
