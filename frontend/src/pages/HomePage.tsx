@@ -101,6 +101,12 @@ export default function HomePage() {
     try {
       const userData = await apiFetch("/users/me");
       setUser(userData);
+      
+      // Check if user needs onboarding
+      if (!userData.onboarded) {
+        window.location.href = "/onboarding";
+        return;
+      }
     } catch (error) {
       console.error("Failed to load user:", error);
       // Redirect to login if token is invalid

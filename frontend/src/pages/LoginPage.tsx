@@ -48,7 +48,13 @@ export default function LoginPage() {
 
         const data = await response.json();
         localStorage.setItem("token", data.access_token);
-        doNavigate("/home");
+        
+        // Check if user needs onboarding
+        if (data.user && !data.user.onboarded) {
+          doNavigate("/onboarding");
+        } else {
+          doNavigate("/home");
+        }
       } else {
         const registerResponse = await fetch(`${API_BASE_URL}/auth/register`, {
           method: "POST",
@@ -81,7 +87,9 @@ export default function LoginPage() {
 
         const data = await loginResponse.json();
         localStorage.setItem("token", data.access_token);
-        doNavigate("/home");
+        
+        // New users always need onboarding
+        doNavigate("/onboarding");
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
